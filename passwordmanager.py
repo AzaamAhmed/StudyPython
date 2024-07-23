@@ -4,8 +4,11 @@ def view():
     try:
         with open('password.txt', 'r') as f:
             for line in f.readlines():
-                name, pwd = line.strip().split()
-                print(f"Account: {name}, Password: {pwd}")
+                # Assuming each line is stored as "name password"
+                data = line.strip()
+                if data:
+                    name, pwd = data.split()
+                    print(f"Account: {name}, Password: {pwd}")
     except FileNotFoundError:
         print("No passwords found. Please add some first.")
 
