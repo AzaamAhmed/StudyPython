@@ -173,7 +173,7 @@ print(c2.name)
 print(c2.age) 
 """
 
-
+""" 
 class car:
     
     wheels = 4            ##class variable
@@ -191,3 +191,38 @@ c2.com = "BMW"
 c1.mil = 8
 print(c1.com, c1.mil, c1.wheels)
 print(c2.com, c2.mil, c2.wheels)
+
+ """
+""" 
+class A:
+    def show(self):
+        print("in Show A")
+        
+class B(A):
+    pass
+
+a1 = B()
+a1.show() """
+
+class Nokia:
+    company = "Nokia India"
+    website = "www.nokia-india.com"
+    
+    def contact_details(self):
+        print("Address   : Cherry Road, Salem")
+        
+class Nokia1100(Nokia):
+    def __init__(self):
+        self.name = "Nokia 1100"
+        self.year = 1998
+        
+    def product_details(self):
+        print("Name      : ", self.name)
+        print("Year      : ", self.year)
+        print("Company   : ", self.company)
+        print("Website   : ", self.website)
+        
+        
+mobile = Nokia1100()
+mobile.product_details()
+mobile.contact_details()
