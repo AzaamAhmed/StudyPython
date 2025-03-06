@@ -1,5 +1,5 @@
-""" name = "Azaam"
-print("Hello Dear " + name + "!") """
+name = "Azaam"
+print("Hello Dear " + name + "!") 
 
 """ a = input("Enter number : ")
  print(int(a)*10) """
@@ -209,7 +209,7 @@ class Nokia:
     website = "www.nokia-india.com"
     
     def contact_details(self):
-        print("Address   : Cherry Road, Salem")
+        print("Address   :  Cherry Road, Salem")
         
 class Nokia1100(Nokia):
     def __init__(self):
