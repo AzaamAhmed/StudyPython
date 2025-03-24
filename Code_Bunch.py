@@ -4,6 +4,8 @@ I will comment it after I finish the code by myself.
 
 """	
 
+from typing import List
+
 
 #finding the calculate of the factorial of a number
 
