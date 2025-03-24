@@ -292,3 +292,337 @@ def remove_duplicates(numbers):
 nums = [1, 2, 3, 2, 1, 3, 2, 4, 5, 4]
 unique_nums = remove_duplicates(nums)
 print(unique_nums)
+
+# fibbonaci sequence upto a given number of terms
+
+def fibonacci(n):
+  fib_seq = [0, 1]
+  while len(fib_seq) < n:
+    fib_seq.append(fib_seq[-1] + fib_seq[-2])
+  return fib_seq
+
+num_terms = int(input("Enter the number of terms: "))
+fibonacci_seq = fibonacci(num_terms)
+print("Fibonacci sequence:", fibonacci_seq)
+
+
+# palindrome partitioning
+
+def partition(s: str) -> List[List[str]]:
+    def is_palindrome(sub: str) -> bool:
+        return sub == sub[::-1]
+
+    def backtrack(start: int, path: List[str]):
+        if start == len(s):
+            result.append(path[:])
+            return
+        for end in range(start + 1, len(s) + 1):
+            substring = s[start:end]
+            if is_palindrome(substring):
+                path.append(substring)
+                backtrack(end, path)
+                path.pop()
+
+    result = []
+    backtrack(0, [])
+    return result
+
+
+# LRU Cache implementation
+
+from collections import OrderedDict
+
+class LRUCache:
+    def __init__(self, capacity: int):
+        self.cache = OrderedDict()
+        self.capacity = capacity
+
+    def get(self, key: int) -> int:
+        if key not in self.cache:
+            return -1
+        self.cache.move_to_end(key)
+        return self.cache[key]
+
+    def put(self, key: int, value: int) -> None:
+        if key in self.cache:
+            self.cache.move_to_end(key)
+        self.cache[key] = value
+        if len(self.cache) > self.capacity:
+            self.cache.popitem(last=False)
+
+
+# merge intervals
+
+def merge(intervals: List[List[int]]) -> List[List[int]]:
+    if not intervals:
+        return []
+
+    intervals.sort(key=lambda x: x[0])
+    merged = [intervals[0]]
+    for current in intervals[1:]:
+        last = merged[-1]
+        if current[0] <= last[1]:
+            last[1] = max(last[1], current[1])
+        else:
+            merged.append(current)
+    return merged
+
+
+
+# implement a min heap
+
+class MinHeap:
+    def __init__(self):
+        self.heap = []
+
+    def insert(self, val):
+        self.heap.append(val)
+        self._bubble_up(len(self.heap) - 1)
+
+    def get_min(self):
+        if not self.heap:
+            return None
+        return self.heap[0]
+
+    def extract_min(self):
+        if not self.heap:
+            return None
+        if len(self.heap) == 1:
+            return self.heap.pop()
+        min_val = self.heap[0]
+        self.heap[0] = self.heap.pop()
+        self._bubble_down(0)
+        return min_val
+
+    def heapify(self, arr):
+        self.heap = arr[:]
+        for i in reversed(range(len(arr) // 2)):
+            self._bubble_down(i)
+
+    def _bubble_up(self, index):
+        parent_index = (index - 1) // 2
+        if index > 0 and self.heap[index] < self.heap[parent_index]:
+            self.heap[index], self.heap[parent_index] = self.heap[parent_index], self.heap[index]
+            self._bubble_up(parent_index)
+
+    def _bubble_down(self, index):
+        smallest = index
+        left = 2 * index + 1
+        right = 2 * index + 2
+        if left < len(self.heap) and self.heap[left] < self.heap[smallest]:
+            smallest = left
+        if right < len(self.heap) and self.heap[right] < self.heap[smallest]:
+            smallest = right
+        if smallest != index:
+            self.heap[index], self.heap[smallest] = self.heap[smallest], self.heap[index]
+            self._bubble_down(smallest)
+
+
+# implement a max heap
+
+class MaxHeap:
+    def __init__(self):
+        self.heap = []
+
+    def insert(self, val):
+        self.heap.append(val)
+        self._bubble_up(len(self.heap) - 1)
+
+    def get_max(self):
+        if not self.heap:
+            return None
+        return self.heap[0]
+
+    def extract_max(self):
+        if not self.heap:
+            return None
+        if len(self.heap) == 1:
+            return self.heap.pop()
+        max_val = self.heap[0]
+        self.heap[0] = self.heap.pop()
+        self._bubble_down(0)
+        return max_val
+
+    def heapify(self, arr):
+        self.heap = arr[:]
+        for i in reversed(range(len(arr) // 2)):
+            self._bubble_down(i)
+
+    def _bubble_up(self, index):
+        parent_index = (index - 1) // 2
+        if index > 0 and self.heap[index] > self.heap[parent_index]:
+            self.heap[index], self.heap[parent_index] = self.heap[parent_index], self.heap[index]
+            self._bubble_up(parent_index)
+
+    def _bubble_down(self, index):
+        largest = index
+        left = 2 * index + 1
+        right = 2 * index + 2
+        if left < len(self.heap) and self.heap[left] > self.heap[largest]:
+            largest = left
+        if right < len(self.heap) and self.heap[right] > self.heap[largest]:
+            largest = right
+        if largest != index:
+            self.heap[index], self.heap[largest] = self.heap[largest], self.heap[index]
+            self._bubble_down(largest)
+            
+
+# implement a stack using two queues
+
+from collections import deque
+
+class Stack:
+    def __init__(self):
+        self.queue1 = deque()
+        self.queue2 = deque()
+
+    def push(self, val):
+        self.queue1.append(val)
+
+    def pop(self):
+        if not self.queue1:
+            return None
+        while len(self.queue1) > 1:
+            self.queue2.append(self.queue1.popleft())
+        val = self.queue1.popleft()
+        self.queue1, self.queue2 = self.queue2, self.queue1
+        return val
+
+    def top(self):
+        if not self.queue1:
+            return None
+        while len(self.queue1) > 1:
+            self.queue2.append(self.queue1.popleft())
+        val = self.queue1.popleft()
+        self.queue2.append(val)
+        self.queue1, self.queue2 = self.queue2, self.queue1
+        return val
+
+    def is_empty(self):
+        return not self.queue1
+    
+
+ # implement a Hash Table
+ 
+class HashTable:
+    def __init__(self, capacity=100):
+        self.capacity = capacity
+        self.table = [[] for _ in range(capacity)]
+
+    def _hash(self, key):
+        return hash(key) % self.capacity
+
+    def put(self, key, value):
+        index = self._hash(key)
+        for i, (k, v) in enumerate(self.table[index]):
+            if k == key:
+                self.table[index][i] = (key, value)
+                return
+        self.table[index].append((key, value))
+
+    def get(self, key):
+        index = self._hash(key)
+        for k, v in self.table[index]:
+            if k == key:
+                return v
+        return None
+
+    def remove(self, key):
+        index = self._hash(key)
+        self.table[index] = [(k, v) for k, v in self.table[index] if k != key]
+
+
+# implement a Trie(Prefix Tree)
+
+class TrieNode:
+    def __init__(self):
+        self.children = {}
+        self.is_end_of_word = False
+
+class Trie:
+    def __init__(self):
+        self.root = TrieNode()
+
+    def insert(self, word):
+        node = self.root
+        for char in word:
+            node = node.children.setdefault(char, TrieNode())
+        node.is_end_of_word = True
+
+    def search(self, word):
+        node = self._find_node(word)
+        return node is not None and node.is_end_of_word
+
+    def starts_with(self, prefix):
+        return self._find_node(prefix) is not None
+
+    def _find_node(self, prefix):
+        node = self.root
+        for char in prefix:
+            if char not in node.children:
+                return None
+            node = node.children[char]
+        return node
+
+
+# implement a Binary Search Tree
+
+class TreeNode:
+    def __init__(self, val=0, left=None, right=None):
+        self.val = val
+        self.left = left
+        self.right = right
+        
+
+# implement a Graph using adjacency list
+
+class Graph:
+    def __init__(self):
+        self.adjacency_list = {}
+
+    def add_vertex(self, vertex):
+        if vertex not in self.adjacency_list:
+            self.adjacency_list[vertex] = []
+
+    def add_edge(self, vertex1, vertex2):
+        if vertex1 in self.adjacency_list and vertex2 in self.adjacency_list:
+            self.adjacency_list[vertex1].append(vertex2)
+            self.adjacency_list[vertex2].append(vertex1)
+
+    def display(self):
+        for vertex, edges in self.adjacency_list.items():
+            print(f"{vertex}: {edges}")
+
+
+# implement Depth First Search (DFS) algorithm	& Breadth First Search (BFS) algorithm
+
+def dfs(graph, start):
+    visited = set()
+    result = []
+
+    def _dfs(v):
+        if v not in visited:
+            visited.add(v)
+            result.append(v)
+            for neighbor in graph.get(v, []):
+                _dfs(neighbor)
+
+    _dfs(start)
+    return result
+
+def bfs(graph, start):
+    visited = set([start])
+    queue = [start]
+    result = []
+
+    while queue:
+        vertex = queue.pop(0)
+        result.append(vertex)
+        for neighbor in graph.get(vertex, []):
+            if neighbor not in visited:
+                visited.add(neighbor)
+                queue.append(neighbor)
+
+    return result
+
+ 
