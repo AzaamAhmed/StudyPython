@@ -687,3 +687,133 @@ def compress_string(s):
 # Testing the function
 print(compress_string("aaabbccc")) 
 print(compress_string("abc"))       
+
+
+# find the maximum single sell profit
+
+def buy_sell_stock_prices(stock_prices):
+    current_buy = stock_prices[0]
+    global_sell = stock_prices[1]
+    global_profit = global_sell - current_buy
+
+    for i in range(1, len(stock_prices)):
+        current_profit = stock_prices[i] - current_buy
+
+        if current_profit > global_profit:
+            global_profit = current_profit
+            global_sell = stock_prices[i]
+
+        if current_buy > stock_prices[i]:
+            current_buy = stock_prices[i]
+
+    return global_sell - global_profit, global_sell
+
+stock_prices_1 = [10,9,16,17,19,23]
+buy_sell_stock_prices(stock_prices_1)
+# (9, 23)
+
+
+stock_prices_2 = [8, 6, 5, 4, 3, 2, 1]
+buy_sell_stock_prices(stock_prices_2)
+# (6, 5)
+
+
+# adding the inheritance
+
+class Animal:
+    def __init__(self, species: str) -> None:
+        self.species = species
+
+    def make_sound(self) -> str:
+        return "Some generic sound"
+
+class Dog(Animal):
+    def __init__(self, name: str, age: int) -> None:
+        super().__init__("Dog")
+        self.name = name
+        self.age = age
+
+    def make_sound(self) -> str:
+        return f"{self.name} says Woof!"
+
+class Cat(Animal):
+    def __init__(self, name: str, age: int) -> None:
+        super().__init__("Cat")
+        self.name = name
+        self.age = age
+
+    def make_sound(self) -> str:
+        return f"{self.name} says Meow!"
+
+# Usage
+my_dog = Dog("Buddy", 3)
+my_cat = Cat("Whiskers", 2)
+print(my_dog.species)  # Output: Dog
+print(my_dog.make_sound())  # Output: Buddy says Woof!
+print(my_cat.species)  # Output: Cat
+print(my_cat.make_sound())  # Output: Whiskers says Meow!
+
+
+# Abstract Factory Pattern with Multiple Inheritance
+
+from abc import ABC, abstractmethod
+
+class Engine(ABC):
+    @abstractmethod
+    def create_engine(self):
+        pass
+
+class Body(ABC):
+    @abstractmethod
+    def create_body(self):
+        pass
+
+class LuxuryEngine(Engine):
+    def create_engine(self):
+        return "Luxury V8 Engine"
+
+class SportsEngine(Engine):
+    def create_engine(self):
+        return "Sports Turbocharged Engine"
+
+class LuxuryBody(Body):
+    def create_body(self):
+        return "Luxury Sedan Body"
+
+class SportsBody(Body):
+    def create_body(self):
+        return "Sports Coupe Body"
+
+class CarFactory(ABC):
+    @abstractmethod
+    def create_engine(self) -> Engine:
+        pass
+
+    @abstractmethod
+    def create_body(self) -> Body:
+        pass
+
+class LuxuryCarFactory(CarFactory):
+    def create_engine(self):
+        return LuxuryEngine()
+
+    def create_body(self):
+        return LuxuryBody()
+
+class SportsCarFactory(CarFactory):
+    def create_engine(self):
+        return SportsEngine()
+
+    def create_body(self):
+        return SportsBody()
+
+def build_car(factory: CarFactory):
+    engine = factory.create_engine()
+    body = factory.create_body()
+    return f"Built Car: {body.create_body()} with {engine.create_engine()}"
+
+luxury_car = build_car(LuxuryCarFactory())
+sports_car = build_car(SportsCarFactory())
+
+print(luxury_car)
+print(sports_car)
