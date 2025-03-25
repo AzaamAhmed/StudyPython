@@ -628,3 +628,62 @@ def bfs(graph, start):
     return result
 
  
+# Longest Substring Without Repeating Characters
+
+def length_of_longest_substring(s: str) -> int:
+    start = max_length = 0
+    used_chars = {}
+
+    for i, char in enumerate(s):
+        if char in used_chars:
+            start = max(start, used_chars[char] + 1)
+        used_chars[char] = i
+        max_length = max(max_length, i - start + 1)
+
+    return max_length
+
+# Test the function
+print(length_of_longest_substring("abcabcbb"))
+
+
+# same above code with different function name
+# Longest Substring Without Repeating Characters    
+
+def longest_unique_substring(s):
+    char_set = set()  # To store unique characters in the window
+    left = 0
+    max_length = 0
+    
+    for right in range(len(s)):
+        while s[right] in char_set:  # If duplicate found, shrink the window
+            char_set.remove(s[left])
+            left += 1
+        char_set.add(s[right])  # Add current character to the set
+        max_length = max(max_length, right - left + 1)  # Update the max length
+    
+    return max_length
+
+# Testing the function
+print(longest_unique_substring("abcabcbb"))
+
+
+# String Compression
+
+def compress_string(s):
+    compressed = []  # To store compressed parts
+    count = 1  # Count of consecutive characters
+    
+    for i in range(1, len(s)):
+        if s[i] == s[i-1]:  # If current character matches previous
+            count += 1
+        else:
+            compressed.append(s[i-1] + str(count))  # Append character and count
+            count = 1  # Reset the count
+    compressed.append(s[-1] + str(count))  # Append the last character and count
+    
+    compressed_string = ''.join(compressed)
+    return compressed_string if len(compressed_string) < len(s) else s
+
+# Testing the function
+print(compress_string("aaabbccc")) 
+print(compress_string("abc"))       
