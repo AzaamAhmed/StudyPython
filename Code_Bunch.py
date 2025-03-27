@@ -912,3 +912,51 @@ root.right = TreeNode(3)
 print(is_valid_bst(root))
 
 
+# Longest Substring Without Repeating Characters
+
+def length_of_longest_substring(s):
+    char_index = {}
+    start = max_length = 0
+    
+    for index, char in enumerate(s):
+        if char in char_index and char_index[char] >= start:
+            start = char_index[char] + 1
+        else:
+            max_length = max(max_length, index - start + 1)
+        char_index[char] = index
+    
+    return max_length
+
+# Example usage:
+s = "abcabcbb"
+print(length_of_longest_substring(s))
+
+# implementing stack using queue
+
+from collections import deque
+
+class MyStack:
+    def __init__(self):
+        self.queue = deque()
+    
+    def push(self, x):
+        self.queue.append(x)
+        for _ in range(len(self.queue) - 1):
+            self.queue.append(self.queue.popleft())
+    
+    def pop(self):
+        return self.queue.popleft()
+    
+    def top(self):
+        return self.queue[0]
+    
+    def empty(self):
+        return not self.queue
+
+# Example usage:
+stack = MyStack()
+stack.push(1)
+stack.push(2)
+print(stack.top())    # Output: 2
+print(stack.pop())    # Output: 2
+print(stack.empty())  # Output: False
