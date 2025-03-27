@@ -219,3 +219,111 @@ data = codec.serialize(root)
 print(data)  # Output: "1 2 # # 3 4 # # 5 # #"
 new_root = codec.deserialize(data)
 print(codec.serialize(new_root) == data)  # Output: True    
+
+
+# Maximum Subarray
+
+def max_subarray(nums):
+    max_sum = float('-inf')
+    current_sum = 0
+    for num in nums:
+        current_sum = max(num, current_sum + num)
+        max_sum = max(max_sum, current_sum)
+    return max_sum
+
+# Example usage:
+nums = [-2,1,-3,4,-1,2,1,-5,4]
+print(max_subarray(nums))  # Output: 6
+
+
+# median of two sorted arrays
+
+def findMedianSortedArrays(nums1, nums2):
+    def kthElement(arr1, arr2, k):
+        if not arr1:
+            return arr2[k]
+        if not arr2:
+            return arr1[k]
+        idx1, idx2 = len(arr1) // 2, len(arr2) // 2
+        median1, median2 = arr1[idx1], arr2[idx2]
+        if idx1 + idx2 < k:
+            if median1 > median2:
+                return kthElement(arr1, arr2[idx2 + 1:], k - idx2 - 1)
+            else:
+                return kthElement(arr1[idx1 + 1:], arr2, k - idx1 - 1)
+        else:
+            if median1 > median2:
+                return kthElement(arr1[:idx1], arr2, k)
+            else:
+                return kthElement(arr1, arr2[:idx2], k)
+
+    total_len = len(nums1) + len(nums2)
+    if total_len % 2 == 1:
+        return kthElement(nums1, nums2, total_len // 2)
+    else:
+        return (kthElement(nums1, nums2, total_len // 2 - 1) +
+                kthElement(nums1, nums2, total_len // 2)) / 2.0
+
+# Example usage:
+nums1 = [1, 3]
+nums2 = [2]
+print(findMedianSortedArrays(nums1, nums2))  # Output: 2.0
+
+# Trapping Rain Water
+
+def trap(height):
+    if not height:
+        return 0
+    left, right = 0, len(height) - 1
+    left_max, right_max = height[left], height[right]
+    water = 0
+    while left < right:
+        if left_max < right_max:
+            left += 1
+            left_max = max(left_max, height[left])
+            water += left_max - height[left]
+        else:
+            right -= 1
+            right_max = max(right_max, height[right])
+            water += right_max - height[right]
+    return water
+
+# Example usage:
+height = [0,1,0,2,1,0,1,3,2,1,2,1]
+print(trap(height))  # Output: 6
+
+
+# N-Queens Problem (Backtracking) 
+
+def solveNQueens(n):
+    def backtrack(row, diagonals, anti_diagonals, cols, state):
+        if row == n:
+            board.append(["".join(row) for row in state])
+            return
+        for col in range(n):
+            curr_diag = row - col
+            curr_anti_diag = row + col
+            if (col in cols or curr_diag in diagonals or
+                    curr_anti_diag in anti_diagonals):
+                continue
+            cols.add(col)
+            diagonals.add(curr_diag)
+            anti_diagonals.add(curr_anti_diag)
+            state[row][col] = 'Q'
+            backtrack(row + 1, diagonals, anti_diagonals, cols, state)
+            cols.remove(col)
+            diagonals.remove(curr_diag)
+            anti_diagonals.remove(curr_anti_diag)
+            state[row][col] = '.'
+
+    board = []
+    empty_board = [['.'] * n for _ in range(n)]
+    backtrack(0, set(), set(), set(), empty_board)
+    return board
+
+# Example usage:
+n = 4
+for solution in solveNQueens(n):
+    for row in solution:
+        print(row)
+    print()
