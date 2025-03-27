@@ -95,3 +95,127 @@ root.right.right = TreeNode(7)
 
 print(level_order_traversal(root))  # Output: [[3],[9,20],[15,7]]
 
+
+# Course Schedule (Detecting Cycles in a Directed Graph)
+
+from collections import defaultdict, deque
+
+def can_finish(numCourses, prerequisites):
+    in_degree = [0] * numCourses
+    adjacency_list = defaultdict(list)
+    for dest, src in prerequisites:
+        adjacency_list[src].append(dest)
+        in_degree[dest] += 1
+    queue = deque([i for i in range(numCourses) if in_degree[i] == 0])
+    visited = 0
+    while queue:
+        node = queue.popleft()
+        visited += 1
+        for neighbor in adjacency_list[node]:
+            in_degree[neighbor] -= 1
+            if in_degree[neighbor] == 0:
+                queue.append(neighbor)
+    return visited == numCourses
+
+# Example usage:
+numCourses = 2
+prerequisites = [[1,0]]
+print(can_finish(numCourses, prerequisites))  # Output: True
+
+
+
+# Evaluate Reverse Polish Notation 
+
+def eval_rpn(tokens):
+    stack = []
+    for token in tokens:
+        if token in {"+", "-", "*", "/"}:
+            b = stack.pop()
+            a = stack.pop()
+            if token == "+":
+                stack.append(a + b)
+            elif token == "-":
+                stack.append(a - b)
+            elif token == "*":
+                stack.append(a * b)
+            else:  # token == "/"
+                stack.append(int(a / b))  # Truncate towards zero
+        else:
+            stack.append(int(token))
+    return stack[0]
+
+# Example usage:
+tokens = ["2", "1", "+", "3", "*"]
+print(eval_rpn(tokens))  # Output: 9
+
+
+
+# Longest Increasing Subsequence	
+
+def length_of_lis(nums):
+    if not nums:
+        return 0
+    dp = [1] * len(nums)
+    for i in range(1, len(nums)):
+        for j in range(i):
+            if nums[i] > nums[j]:
+                dp[i] = max(dp[i], dp[j] + 1)
+    return max(dp)
+
+# Example usage:
+nums = [10,9,2,5,3,7,101,18]
+print(length_of_lis(nums))  # Output: 4
+
+
+# Serialize and Deserialize Binary Tree
+
+class TreeNode:
+    def __init__(self, val=0, left=None, right=None):
+        self.val = val
+        self.left = left
+        self.right = right
+
+class Codec:
+    def serialize(self, root):
+        def helper(node):
+            if not node:
+                vals.append("#")
+            else:
+                vals.append(str(node.val))
+                helper(node.left)
+                helper(node.right)
+        vals = []
+        helper(root)
+        return ' '.join(vals)
+
+    def deserialize(self, data):
+        def helper():
+            val = next(vals)
+            if val == "#":
+                return None
+            node = TreeNode(int(val))
+            node.left = helper()
+            node.right = helper()
+            return node
+        vals = iter(data.split())
+        return helper()
+
+# Example usage:
+# Constructing the following tree:
+#     1
+#    / \
+#   2   3
+#      / \
+#     4   5
+
+root = TreeNode(1)
+root.left = TreeNode(2)
+root.right = TreeNode(3)
+root.right.left = TreeNode(4)
+root.right.right = TreeNode(5)
+
+codec = Codec()
+data = codec.serialize(root)
+print(data)  # Output: "1 2 # # 3 4 # # 5 # #"
+new_root = codec.deserialize(data)
+print(codec.serialize(new_root) == data)  # Output: True    
