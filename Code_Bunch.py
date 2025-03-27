@@ -817,3 +817,98 @@ sports_car = build_car(SportsCarFactory())
 
 print(luxury_car)
 print(sports_car)
+
+
+# merge intervals
+
+def merge_intervals(intervals):
+    if not intervals:
+        return []
+    
+    # Sort intervals based on the start time
+    intervals.sort(key=lambda x: x[0])
+    merged = [intervals[0]]
+    
+    for current in intervals[1:]:
+        prev = merged[-1]
+        if current[0] <= prev[1]:  # Overlapping intervals
+            prev[1] = max(prev[1], current[1])
+        else:
+            merged.append(current)
+    
+    return merged
+
+# Example usage:
+intervals = [[1,3],[2,6],[8,10],[15,18]]
+print(merge_intervals(intervals))
+
+
+
+# next greater element
+
+def next_greater_element(arr):
+    stack = []
+    nge = [-1] * len(arr)
+    
+    for i in range(len(arr)):
+        while stack and arr[stack[-1]] < arr[i]:
+            index = stack.pop()
+            nge[index] = arr[i]
+        stack.append(i)
+    
+    return nge
+
+# Example usage:
+arr = [4, 5, 2, 25]
+print(next_greater_element(arr))
+
+
+# find duplicate numbers
+
+def find_duplicate(nums):
+    # Using Floyd's Tortoise and Hare (Cycle Detection)
+    slow = fast = nums[0]
+    
+    # Phase 1: Finding the intersection point
+    while True:
+        slow = nums[slow]
+        fast = nums[nums[fast]]
+        if slow == fast:
+            break
+    
+    # Phase 2: Finding the entrance to the cycle
+    slow = nums[0]
+    while slow != fast:
+        slow = nums[slow]
+        fast = nums[fast]
+    
+    return slow
+
+# Example usage:
+nums = [3, 1, 3, 4, 2]
+print(find_duplicate(nums))
+
+
+# Binary Search validation
+
+class TreeNode:
+    def __init__(self, val=0, left=None, right=None):
+        self.val = val
+        self.left = left
+        self.right = right
+
+def is_valid_bst(root, low=float('-inf'), high=float('inf')):
+    if not root:
+        return True
+    if not (low < root.val < high):
+        return False
+    return (is_valid_bst(root.left, low, root.val) and
+            is_valid_bst(root.right, root.val, high))
+
+# Example usage:
+root = TreeNode(2)
+root.left = TreeNode(1)
+root.right = TreeNode(3)
+print(is_valid_bst(root))
+
+
