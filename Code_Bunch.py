@@ -4,7 +4,7 @@ I will comment it after I finish the code by myself.
 
 """	
 
-from typing import List
+
 
 
 #finding the calculate of the factorial of a number
@@ -960,3 +960,27 @@ stack.push(2)
 print(stack.top())    # Output: 2
 print(stack.pop())    # Output: 2
 print(stack.empty())  # Output: False
+
+
+
+from typing import List, Self
+
+Self.left = None
+Self.right = None
+
+def level_order_traversal(root):
+    if not root:
+        return []
+    result = []
+    queue = [root]
+    while queue:
+        level = []
+        for _ in range(len(queue)):
+            node = queue.pop(0)
+            level.append(node.val)
+            if node.left:
+                queue.append(node.left)
+            if node.right:
+                queue.append(node.right)
+        result.append(level)
+    return result
