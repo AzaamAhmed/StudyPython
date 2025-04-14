@@ -1,10 +1,10 @@
-from flask import Flask, request, jsonify, session
-from werkzeug.security import generate_password_hash, check_password_hash
-from cryptography.fernet import Fernet
+from flask import Flask, request, jsonify, session # type: ignore
+from werkzeug.security import generate_password_hash, check_password_hash # type: ignore
+from cryptography.fernet import Fernet # type: ignore
 import sqlite3
 import re, os, time
-from flask_limiter import Limiter
-from flask_limiter.util import get_remote_address
+from flask_limiter import Limiter # type: ignore
+from flask_limiter.util import get_remote_address # type: ignore
 
 # Generate encryption key (store securely)
 if not os.path.exists("key.key"):
