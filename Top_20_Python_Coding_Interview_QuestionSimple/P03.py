@@ -1,13 +1,8 @@
 # Write a program to find the sum of two numbers.
 
-def sumoftwo(num):
-    sum = 0
-    for i in num:
-        sum += i
-    return sum
-num = []
-n = int(input("Enter the Number of Elements: "))
-for i in range(n):
-    num.append(int(input("Enter the Number: ")))
-print("The Sum of the Numbers is: ", sumoftwo(num))
+def sumoftwo(a, b):
+    return a + b
 
+num1 = int(input("Enter the first number: "))
+num2 = int(input("Enter the second number: "))
+print("The Sum of the Numbers is: ", sumoftwo(num1, num2))

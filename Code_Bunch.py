@@ -984,3 +984,20 @@ def level_order_traversal(root):
                 queue.append(node.right)
         result.append(level)
     return result
+
+# sum of the elements 
+
+def sum_of_elements(numbers):
+    total = 0
+    for i in numbers:
+        total += i
+    return total
+
+num = []
+try:
+    n = int(input("Enter the number of elements: "))
+    for i in range(n):
+        num.append(int(input(f"Enter number {i+1}: ")))
+    print("The sum of the numbers is:", sum_of_elements(num))
+except ValueError:
+    print("Please enter valid integers only.")
