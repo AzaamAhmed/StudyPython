@@ -1,16 +1,18 @@
 # Write a program to check if the given number is palindrome or not.
 
-def checkPalindrome(num):
-    temp = num
-    rev = 0
-    while temp>0:
-        rem = temp%10
-        rev = (rev*10) + rem
-        temp= temp//10
-    if num == rev:
-        print("Is Palindrome")
-    else:
-        print("Not Palindrome")
+num = input("Enter a number: ")
 
-num = int(input("Enter Your Number : "))
-checkPalindrome(num)
+if num == num[::-1]:
+    print(f"{num} is a palindrome.")
+else:
+    print(f"{num} is not a palindrome.")
+
+#OR
+def is_palindrome(num):
+    return str(num) == str(num)[::-1]
+num = int(input("Enter a number: "))
+if is_palindrome(num):
+    print(f"{num} is a palindrome.")
+else:
+    print(f"{num} is not a palindrome.")
+    
