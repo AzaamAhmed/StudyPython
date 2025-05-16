@@ -1,5 +1,5 @@
 print("Welcome to the TravelGPT 3.0. Lets plan an adventure")
-enter = int(input("1 - Start, 2 - quit"))
+enter = int(input("1 - Start, 2 - quit: "))
 while enter == 1:
   destination = input("Do you have a destination in mind ?").lower()
   if destination == "yes":
