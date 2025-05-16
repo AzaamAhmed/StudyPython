@@ -1,12 +1,12 @@
 print("Welcome to the TravelGPT 3.0. Lets plan an adventure")
 enter = int(input("1 - Start, 2 - quit: "))
 while enter == 1:
-  destination = input("Do you have a destination in mind ?").lower()
+  destination = input("Do you have a destination in mind : ").lower()
   if destination == "yes":
     print("let's get started")
-    transport = input("How do you want to travel? (car, bus, train, plane)").lower()
+    transport = input("How do you want to travel? (car, bus, train, plane) : ").lower()
     if transport == "plane":
-        class_type = input("What class do you want to fly? (economy, business, first)").lower()
+        class_type = input("What class do you want to fly? (economy, business, first) : ").lower()
         if class_type == "economy":
             print("You have chosen economy class. Enjoy your flight!")
         elif class_type == "business":
