@@ -16,7 +16,7 @@ while enter == 1:
         else:
             print("Invalid class type. Please choose economy, business, or first.")
     elif transport == "train":
-        class_type = input("What class do you want to travel? (sleeper, AC, general)").lower()
+        class_type = input("What class do you want to travel? (sleeper, AC, general) : ").lower()
         if class_type == "sleeper":
             print("You have chosen sleeper class. Enjoy your journey!")
         elif class_type == "ac":
